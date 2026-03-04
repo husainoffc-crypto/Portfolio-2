@@ -1,45 +1,8 @@
 import { useRef, useState } from "react";
 import { motion, useInView, useScroll, useTransform } from "motion/react";
+import { useNavigate } from "react-router";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
-
-const projects = [
-  {
-    id: 1,
-    name: "Food It",
-    description: "A food delivery experience designed around warmth, simplicity, and the joy of discovering meals.",
-    tags: ["Mobile App", "UI/UX Design", "Figma"],
-    bgColor: "#FFF3E8",
-    accentColor: "#c57d3c",
-    image: "https://images.unsplash.com/photo-1705211734796-7cdbcb527636?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmb29kJTIwYXBwJTIwaW50ZXJmYWNlJTIwb3JhbmdlJTIwd2FybXxlbnwxfHx8fDE3NzI2MDUxOTF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-  },
-  {
-    id: 2,
-    name: "Lazy Project",
-    description: "Minimal architecture portfolio celebrating negative space, clean lines, and structural elegance.",
-    tags: ["Web Design", "Architecture", "Minimal"],
-    bgColor: "#F5F0EB",
-    accentColor: "#8B7D6B",
-    image: "https://images.unsplash.com/photo-1674796723915-4f06a8e51295?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtaW5pbWFsJTIwYXJjaGl0ZWN0dXJlJTIwYmVpZ2UlMjBuZXV0cmFsfGVufDF8fHx8MTc3MjYwNTE5MXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-  },
-  {
-    id: 3,
-    name: "Testing Suite",
-    description: "A quality assurance dashboard built for precision — automation scripts, regression reports, and bug lifecycles.",
-    tags: ["QA Engineering", "Graphic Design", "Selenium"],
-    bgColor: "#EDEDEF",
-    accentColor: "#555",
-    image: "https://images.unsplash.com/photo-1582035100994-9ddfc34b1dae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkYXJrJTIwZ3JhcGhpdGUlMjBhYnN0cmFjdCUyMHRleHR1cmV8ZW58MXx8fHwxNzcyNjA1MTkyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-  },
-  {
-    id: 4,
-    name: "Lenovo",
-    description: "A quality assurance dashboard built for precision — automation scripts, regression reports, and bug lifecycles.",
-    tags: ["UI UX Design", "Automation", "Selenium"],
-    bgColor: "#EDEDEF",
-    accentColor: "#555",
-    image: "https://images.unsplash.com/photo-1582035100994-9ddfc34b1dae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkYXJrJTIwZ3JhcGhpdGUlMjBhYnN0cmFjdCUyMHRleHR1cmV8ZW58MXx8fHwxNzcyNjA1MTkyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-  },
-];
+import { projects } from "./projectData";
 
 export function ProjectPanels() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -137,6 +100,7 @@ function ProgressDot({
 
 function ProjectPanel({ project }: { project: (typeof projects)[0] }) {
   const [hovered, setHovered] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div
@@ -183,6 +147,7 @@ function ProjectPanel({ project }: { project: (typeof projects)[0] }) {
           </p>
           <motion.button
             whileHover={{ x: 5 }}
+            onClick={() => navigate(`/project/${project.slug}`)}
             className="flex items-center gap-2 cursor-pointer"
             style={{
               fontFamily: "'Inter', sans-serif",
@@ -207,7 +172,7 @@ function ProjectPanel({ project }: { project: (typeof projects)[0] }) {
             y: hovered ? -4 : 0,
           }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="w-72 h-96 md:w-96 md:h-[500px] overflow-hidden flex-shrink-0"
+          className="w-72 h-96 md:w-96 md:h-[500px] overflow-hidden flex-shrink-0 cursor-pointer"
           style={{
             borderRadius: 8,
             boxShadow: hovered
@@ -215,6 +180,7 @@ function ProjectPanel({ project }: { project: (typeof projects)[0] }) {
               : "0 10px 30px rgba(0,0,0,0.05)",
             transition: "box-shadow 0.6s ease",
           }}
+          onClick={() => navigate(`/project/${project.slug}`)}
         >
           <ImageWithFallback
             src={project.image}
